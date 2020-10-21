@@ -14,6 +14,11 @@ start = 1
 OUTSIDE_BG = (-100, -100)
 
 pygame.init()
+
+dog = pygame.image.load('Image/СтРаШНыЙ иНОшЕпОтяНиН.png')
+dog_rect = dog.get_rect(center=(480, 240))
+dog = pygame.transform.scale(dog, (dog.get_width() // 2, dog.get_height() // 2))
+
 pygame.display.set_caption('GUESS NUMBER!')
 screen = pygame.display.set_mode((W, H))
 pygame.mouse.set_visible(True)
@@ -29,8 +34,8 @@ bg_rect = bg.get_rect(topleft=(0, 0))
 cat = pygame.image.load('Image/cat.png')
 cat_rect = cat.get_rect(center=(70, 220))
 
-dog = pygame.image.load('Image/dog.png')
-dog_rect = dog.get_rect(center=(410, 220))
+'''image = pygame.image.load('Image/СтРаШНыЙ иНОшЕпОтяНиН.png')
+dog_rect = dog.get_rect(center=(320, 300))'''
 
 owl = pygame.image.load('Image/owl.png')
 owl_rect = owl.get_rect(center=(210, 120))
@@ -61,6 +66,31 @@ while run:
                 run = False
             elif e.unicode.isdecimal() and block == 0:
                 numeral += e.unicode
+            elif e.key == pygame.K_BACKSPACE:
+                numeral = numeral[:-1]
+            elif e.key == pygame.K_RETURN and numeral:
+                if int(numeral) > 100:
+                    dialogs('', OUTSIDE_BG, 'Вы не экстрасенс')
+                elif int(numeral) > num:
+                    dialogs('', OUTSIDE_BG, 'Число меньше')
+                elif int(numeral) < num:
+                    dialogs('', OUTSIDE_BG, 'Число больше')
+                if move == 1:
+                    if int(numeral) == num:
+                        dialogs(f'это число{numeral}', dialog_cat_pos, 'Кот, ты выйграл')
+                        block = 1
+                    else:
+                        dialogs('Иношепотян, ты лох', dialog_cat_pos, 'продолжаем')
+                elif move == 2:
+                    if int(numeral) == num:
+                        dialogs(f'это число{numeral}', dialog_dog_pos, 'ИноШеПоТяН, ты выйграл')
+                        block = 1
+                    else:
+                        dialogs('Кот, ты лох', dialog_dog_pos, 'продолжаем')
+                numeral = ''
+                move += 1
+                if move > 2:
+                    move = 1
 
     if block == 0:
         screen.blit(bg, bg_rect)
@@ -75,5 +105,5 @@ while run:
     if start == 1:
         dialogs('', OUTSIDE_BG, 'Я загадала число')
         dialogs('', OUTSIDE_BG, 'От 0 до 100')
-        dialogs('Кот, твой ход', dialog_dog_pos, 'Отгадайте его')
+        dialogs('jhdsg, wdgfiujok', dialog_dog_pos, 'Отгадайте его')
         start = 0
